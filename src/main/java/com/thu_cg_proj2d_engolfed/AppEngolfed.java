@@ -1,11 +1,9 @@
 package com.thu_cg_proj2d_engolfed;
 
-import com.thu_cg_proj2d_engolfed.gameobjects.GameObject;
+import com.thu_cg_proj2d_engolfed.levels.LevelManager;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /** <h1>		Engolfed			</h1>
@@ -18,21 +16,46 @@ import javafx.stage.Stage;
  */
 
 public class AppEngolfed extends Application {
+	private LevelManager levelManager = new LevelManager();
+	private AnimationTimer at;
+	private long lastFrameTime = 0;
 
-	private Pane root;
+	int frameCounter = 0;
 
-	private Parent createContent() {
-		root = new Pane();
-		root.setPrefSize(600, 600);
-		GameObject test = new GameObject();
-		for (Shape s: test.spriteLayers)
-			root.getChildren().add(s);
-		return root;
-	}
 	@Override
 	public void start(Stage stage) throws Exception {
-		stage.setScene(new Scene(createContent()));
+		at = initAnimTimer(stage);
+		stage.setScene(levelManager.loadCurrentLevel());
+		at.start();
 		stage.show();
+	}
+
+	private void updateFrame(Stage s) {
+		levelManager.updateCurrentLevel();
+		frameCounter++;
+	}
+
+	private AnimationTimer initAnimTimer(Stage s) {
+		double framerate = 60;
+		double delta = (1000000000.0/ framerate);
+		return new AnimationTimer() {
+			@Override
+			public void handle(long now) {
+				// Calculate the time passed since the last frame
+				if (lastFrameTime == 0) {
+					lastFrameTime = now;
+					return;
+				}
+
+				long elapsedTime = now - lastFrameTime;
+
+				// If the elapsed time exceeds or equals the frame time, update the game logic
+				if (elapsedTime >= delta) {
+					updateFrame(s);
+					lastFrameTime = now;
+				}
+			}
+		};
 	}
 
 	public static void main(String[] args) {
