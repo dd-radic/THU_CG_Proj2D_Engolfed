@@ -3,6 +3,7 @@ package com.thu_cg_proj2d_engolfed;
 import com.thu_cg_proj2d_engolfed.levels.LevelManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -14,7 +15,6 @@ import javafx.stage.Stage;
  *	@author 	David-Dominik Radić
  * @version 	1.0 (2024-11-07)
  */
-
 public class AppEngolfed extends Application {
 	private LevelManager levelManager = new LevelManager();
 	private AnimationTimer at;
@@ -25,8 +25,10 @@ public class AppEngolfed extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		at = initAnimTimer(stage);
-		stage.setScene(levelManager.loadCurrentLevel());
+		stage.setScene(levelManager.loadNewLevel(1));
 		at.start();
+		stage.setResizable(false);
+		stage.setTitle("Engolfed: The Game");
 		stage.show();
 	}
 
