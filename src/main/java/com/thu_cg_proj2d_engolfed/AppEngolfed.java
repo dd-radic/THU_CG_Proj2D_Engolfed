@@ -15,7 +15,6 @@ import javafx.stage.Stage;
  * @version 	1.0 (2024-11-07)
  */
 public class AppEngolfed extends Application {
-	private LevelManager levelManager = new LevelManager();
 	private Level level = null;
 	private AnimationTimer at;
 	private long lastFrameTime = 0;
@@ -25,7 +24,7 @@ public class AppEngolfed extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		Scene sc = null;
-		level = new Level_Test(sc);
+		level = new Level_Test();
 		at = initAnimTimer(stage);
 		sc = new Scene(level);
 		stage.setScene(sc);
@@ -39,6 +38,8 @@ public class AppEngolfed extends Application {
 
 	private void updateFrame(Stage s) {
 		level.update();
+		if (level.winCon && level.localTimer == 0)
+			level = new Level_Test();
 		frameCounter++;
 	}
 

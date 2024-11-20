@@ -65,7 +65,7 @@ public class Ball extends GameObject{
 	}
 
 	private void getFieldFromLevel() {
-		if (this.getScene().getRoot() != null) {
+		if (this.getParent() != null) {
 			Level a = (Level) this.getScene().getRoot();
 			for (Node n : a.getChildrenUnmodifiable()) {
 				if (n instanceof Field) {

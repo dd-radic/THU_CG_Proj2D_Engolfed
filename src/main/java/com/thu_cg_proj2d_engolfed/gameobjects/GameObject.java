@@ -3,7 +3,6 @@ package com.thu_cg_proj2d_engolfed.gameobjects;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Parent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
 public abstract class GameObject extends Group {

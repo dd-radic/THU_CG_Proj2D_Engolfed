@@ -1,5 +1,6 @@
 package com.thu_cg_proj2d_engolfed.levels;
 
+import com.thu_cg_proj2d_engolfed.buttons.*;
 import com.thu_cg_proj2d_engolfed.gameobjects.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Level extends Parent {
-	long localTimer = -1;
+	public long localTimer = -1;
 	int score = 0;
 	int par = 0;
 	public boolean winCon = false;
@@ -21,17 +22,17 @@ public abstract class Level extends Parent {
 	public Ball ball;
 	public Hole hole;
 	public Field field;
+
+	public List<Button> buttons = new ArrayList<Button>();
 	public List<Crate> crates = new ArrayList<Crate>();
 	public List<Water> puddles = new ArrayList<Water>();
 
-	protected Scene scene;
 
 
-	public Level(Scene scene) {
+	public Level() {
 		score = 0;
 		localTimer = -1;
 		initParts();
-		this.scene = scene;
 	}
 
 	private void initParts() {
@@ -50,6 +51,10 @@ public abstract class Level extends Parent {
 		if (this.hole != null) getChildren().add(hole);
 		initBall();
 		if (this.ball != null) getChildren().add(ball);
+		initButtons();
+		if (this.buttons != null)
+			if (!this.buttons.isEmpty())
+				this.getChildren().addAll(this.buttons);
 		initDisplay();
 		if (this.display != null)
 			if (!this.display.isEmpty())
@@ -105,7 +110,7 @@ public abstract class Level extends Parent {
 	}
 
 	public void loadNew(Level lvl){
-		this.getScene().setRoot(lvl);
+		getScene().setRoot(lvl);
 	}
 
 }

@@ -8,4 +8,6 @@ module com.thu_cg_proj2d_engolfed {
 	exports com.thu_cg_proj2d_engolfed;
 	exports com.thu_cg_proj2d_engolfed.gameobjects;
 	opens com.thu_cg_proj2d_engolfed.gameobjects to javafx.fxml;
+	exports com.thu_cg_proj2d_engolfed.buttons;
+	opens com.thu_cg_proj2d_engolfed.buttons to javafx.fxml;
 }
