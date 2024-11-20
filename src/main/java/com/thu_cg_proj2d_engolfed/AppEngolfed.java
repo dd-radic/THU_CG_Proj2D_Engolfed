@@ -1,10 +1,9 @@
 package com.thu_cg_proj2d_engolfed;
 
-import com.thu_cg_proj2d_engolfed.levels.LevelManager;
+import com.thu_cg_proj2d_engolfed.levels.*;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /** <h1>		Engolfed			</h1>
@@ -17,6 +16,7 @@ import javafx.stage.Stage;
  */
 public class AppEngolfed extends Application {
 	private LevelManager levelManager = new LevelManager();
+	private Level level = null;
 	private AnimationTimer at;
 	private long lastFrameTime = 0;
 
@@ -24,16 +24,21 @@ public class AppEngolfed extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		Scene sc = null;
+		level = new Level_Test(sc);
 		at = initAnimTimer(stage);
-		stage.setScene(levelManager.loadNewLevel(1));
+		sc = new Scene(level);
+		stage.setScene(sc);
 		at.start();
+		stage.setWidth(992);
+		stage.setHeight(558);
 		stage.setResizable(false);
 		stage.setTitle("Engolfed: The Game");
 		stage.show();
 	}
 
 	private void updateFrame(Stage s) {
-		levelManager.updateCurrentLevel();
+		level.update();
 		frameCounter++;
 	}
 

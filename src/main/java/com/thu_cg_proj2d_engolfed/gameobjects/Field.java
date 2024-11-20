@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
+import java.util.ArrayList;
+
 public class Field extends GameObject{
 	int type;
 
@@ -11,6 +13,14 @@ public class Field extends GameObject{
 		super(x,y);
 		this.type = i;
 		this.layers = redefineLayers();
+	}
+
+	public Field(int x, int y, Rectangle[] layers){
+		super(x,y);
+		for (Rectangle r : layers){
+			r.setFill(Color.GREENYELLOW);
+			getChildren().add(r);
+		}
 	}
 
 	private Shape[] redefineLayers() {

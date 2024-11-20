@@ -1,10 +1,10 @@
 package com.thu_cg_proj2d_engolfed.gameobjects;
 
+import com.thu_cg_proj2d_engolfed.levels.Level;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -40,7 +40,7 @@ public class Ball extends GameObject{
 		getChildren().add(this.fire);
 	}
 
-	private Circle getCircleFromObject() {
+	public Circle getCircleFromObject() {
 		for (Node n: this.getChildren())
 			if (n instanceof Circle)
 				return (Circle) n;
@@ -65,10 +65,12 @@ public class Ball extends GameObject{
 	}
 
 	private void getFieldFromLevel() {
-		Pane a = (Pane)this.getScene().getRoot();
-		for (Node n : a.getChildren()) {
-			if (n instanceof Field) {
-				this.field = (Field) n;
+		if (this.getScene().getRoot() != null) {
+			Level a = (Level) this.getScene().getRoot();
+			for (Node n : a.getChildrenUnmodifiable()) {
+				if (n instanceof Field) {
+					this.field = (Field) n;
+				}
 			}
 		}
 	}
@@ -152,6 +154,36 @@ public class Ball extends GameObject{
 		if (collidesBottomWall || collidesTopWall)
 				this.velocity = new Point2D(velocity.getX(), -velocity.getY());
 
+
+
+		Level local = (Level)this.getScene().getRoot();
+
+		if(intersectsHitbox(local.hole) && local.hole.open){
+			local.startLocalTimer(60);
+			velocity = new Point2D(0,0);
+			setTranslateX(local.hole.getTranslateX());
+			setTranslateY(local.hole.getTranslateY());
+			if (getScaleX() > 0){
+				setScaleX(getScaleX()-0.04);
+				setScaleY(getScaleY()-0.04);
+			}
+		}
+
+
+		if (local.crates != null && !local.crates.isEmpty())
+			for (Crate c : local.crates){
+				if (intersectsHitbox(c)){
+					c.lit = true;
+				}
+			}
+
 		return collidesWall;
+	}
+
+	private boolean intersectsHitbox(GameObject s) {
+		for (int i = 0; i < collisionPoints.length; i++)
+			if (s.contains(collisionPoints[i].subtract(s.getTranslateX(), s.getTranslateY())))
+				return true;
+		return false;
 	}
 }
